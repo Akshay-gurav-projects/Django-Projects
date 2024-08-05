@@ -1,0 +1,16 @@
+body{
+	background-color: rgb(75, 74, 74);
+	color: #fff;
+}
+
+.jumbo-color{
+	background-color: rgb(83, 81, 81);
+}
+
+form{
+	color: rgb(177, 168, 168);
+}
+
+.About-box{
+	margin: 0 auto;
+}
