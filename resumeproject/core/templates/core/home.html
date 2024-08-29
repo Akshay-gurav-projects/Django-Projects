@@ -1,0 +1,19 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block content %}
+	<div>
+		<div class="text-center">
+			<img src="{% static 'core/images/pic-1.png' %}" alt="profilepic" class="img-thumbnail mt-5" width="250px" height="150px">
+		</div>
+		<div class="text-white mt-5 mx-5 text-justify">
+			{% comment %} <h1 class="font-weight-bold">Hello</h1> {% endcomment %}
+			<div style="text-align: justify;">
+				<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis dignissimos, repellat eius ipsa dolor tempora. Repellendus, illum fuga numquam quia velit perferendis voluptatibus, nihil quam voluptate magni sequi, nisi maxime.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis dignissimos, repellat eius ipsa dolor tempora. Repellendus, illum fuga numquam quia velit perferendis voluptatibus, nihil quam voluptate magni sequi, nisi maxime.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis dignissimos, repellat eius ipsa dolor tempora. Repellendus, illum fuga numquam quia velit perferendis voluptatibus, nihil quam voluptate magni sequi, nisi maxime.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis dignissimos, repellat eius ipsa dolor tempora. Repellendus, illum fuga numquam quia velit perferendis voluptatibus, nihil quam voluptate magni sequi, nisi maxime.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis dignissimos, repellat eius ipsa dolor tempora. Repellendus, illum fuga numquam quia velit perferendis voluptatibus, nihil quam voluptate magni sequi, nisi maxime.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis dignissimos, repellat eius ipsa dolor tempora. Repellendus, illum fuga numquam quia velit perferendis voluptatibus, nihil quam voluptate magni sequi, nisi maxime.</p>
+				<div class="text-center">
+					<a href="{% url 'contact' %}" class="btn btn-outline-warning my-3 mx-3">Hire Me</a>
+					<a href="{% url 'contact' %}" class="btn btn-outline-info">Contact</a>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock content %}

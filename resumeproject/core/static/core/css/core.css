@@ -1,0 +1,39 @@
+*{
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+}
+
+body{
+	height: 100%;
+}
+
+.container-fluid{
+	min-height: 100%;
+}
+
+/* services icon colgroup */
+
+.i-color{
+	color: chartreuse;
+}
+
+.ss-color{
+	color: whitesmoke;
+}
+
+a.nav-link{
+	text-decoration: none;
+	color: white;
+	/* background-color: yellow; */
+}
+
+a.nav-link:hover{
+	background-color: #FFC107;
+	color: black;
+}
+
+a.nav-link.active{
+	background-color: #FFC107;
+	color: black;
+}
