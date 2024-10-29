@@ -1,0 +1,155 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'enroll/css/bootstrap.min.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class = "container mt-5">
+        <h2 class = "text-center alert alert-danger">DJANGO & AJAX</h2>
+        <div class="row">
+            <div class="col-sm-4">
+                <h4 class="text-center alert alert-info">Add/Update Student</h4>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="stuid" id="stuid">
+                    {{ form.as_p}}
+                </form>
+                <input type="button" class="btn btn-success" id="btnSave" value="save">
+            </div>
+            <div class="col-sm-8">
+                <h4 class="text-center alert alert-info">Students</h4>
+                <table class="table table-hover text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">E-mail</th>
+                            <th scope="col">Password</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        
+                        {% for stu in stud %}
+                            <tr>
+                                <td scope="col">{{ stu.id}}</td>
+                                <td scope="col">{{ stu.name}}</td>
+                                <td scope="col">{{ stu.email}}</td>
+                                <td scope="col">{{ stu.password}}</td>
+                                <td scope="col">
+                                    <input type="button" data-sid="{{ stu.id }}" class="btn btn-warning btn-sm btn-edit" value="Edit">
+                                    <input type="button" data-sid="{{ stu.id }}" class="btn btn-danger btn-sm btn-del" value="Delete">
+                                </td>
+                            </tr>
+                        {% endfor %}
+                            
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    
+    <script src="{% static 'enroll/js/jquery.min.js' %}"></script>
+    <script src="{% static 'enroll/js/popper.min.js' %}"></script>
+    <script src="{% static 'enroll/js/bootstrap.min.js' %}"></script>
+
+    <script>
+        $(document).ready(function(){
+
+            // save data
+            $( "#btnSave" ).click(function( event ) {
+                output = "";
+                let sid = $('#stuid').val()
+                let nm = $('#nameid').val()
+                let em = $('#emailid').val()
+                let pw = $('#passwordid').val()
+                let csr = $('input[name="csrfmiddlewaretoken"]').val()
+                if(nm == ""){
+                    alert("Please Enter Name")
+                } else if(em == ""){
+                    alert("Please Enter E-mail")
+                } else if(pw == ""){
+                    alert("Please Enter Password")
+                } else {
+                    mydata = {stuid:sid, name:nm, email:em, password:pw, csrfmiddlewaretoken:csr};
+                    $.ajax({
+                        url:"{% url 'save' %}",
+                        method : "POST",
+                        data : mydata,
+                        success: function(data){
+                            x = data.student_data;
+                            if(data.status == "save"){
+                                
+                                for(i=0; i < x.length; i++){
+                                    output += `
+                                    <tr>
+                                        <td scope="col">${x[i].id}</td>
+                                        <td scope="col">${x[i].name}</td>
+                                        <td scope="col">${x[i].email}</td>
+                                        <td scope="col">${x[i].password}</td>
+                                        <td scope="col">
+                                            <input type="button" data-sid="${x[i].id}" class="btn btn-warning btn-sm btn-edit" value="Edit">
+                                            <input type="button" data-sid="${x[i].id}" class="btn btn-danger btn-sm btn-del" value="Delete">
+                                        </td>
+                                    </tr>
+                                    `
+                                }
+                                $("#tbody").html(output)
+                                $("form")[0].reset();
+                            }
+                            if(data.status == 0){
+                                alert("Unable to save Form")
+                            }
+                        }
+                    })
+                }
+                
+            });
+
+            //delete data
+            $("tbody").on("click", ".btn-del", function(){
+                let id = $(this).attr("data-sid")
+                let csr = $('input[name="csrfmiddlewaretoken"]').val()
+                mydata = {sid:id, csrfmiddlewaretoken:csr}
+                mythis = this
+                $.ajax({
+                    url: "{% url 'delete' %}",
+                    method:"POST",
+                    data:mydata,
+                    success:function(data){
+                        if(data.status == 1){
+                            $(mythis).closest("tr").fadeOut();
+                        }
+                    }
+                })
+            });
+
+
+            //edit data
+            $("tbody").on("click", ".btn-edit", function(){
+                let id = $(this).attr("data-sid")
+                let csr = $('input[name="csrfmiddlewaretoken"]').val()
+                mydata = {sid:id, csrfmiddlewaretoken:csr}
+                
+                $.ajax({
+                    url: "{% url 'edit' %}",
+                    method:"POST",
+                    data:mydata,
+                    dataType:"json",
+                    success:function(data){
+                        console.log(data)
+                        $('#stuid').val(data.id)
+                        $('#nameid').val(data.name)
+                        $('#emailid').val(data.email)
+                        $('#passwordid').val(data.password)
+                    }
+                })
+            });
+        })
+    </script>
+</body>
+</html>
