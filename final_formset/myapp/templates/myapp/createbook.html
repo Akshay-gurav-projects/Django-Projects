@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1>Create book for {{ author.author_name }}</h1>
+    <form method="post" id="formset-form">
+        {% csrf_token %}
+        <div id="formset-container">
+          {{ formset.management_form }}
+          {% for form in formset %}
+            <div class="form-item">
+              {{ form.as_p }}
+            </div>
+          {% endfor %}
+        </div>
+      
+      
+        <div id="empty-form" style="display: none;">
+            {{ formset.empty_form.as_p }}
+        </div>
+      
+        <button type="button" id="add-form-button">Add Another Item</button>
+        <button type="submit">Submit</button>
+      
+      </form>
+
+
+      <div>
+        
+
+        <script>
+          document.getElementById('add-form-button').addEventListener('click', function() {
+              const formContainer = document.getElementById('formset-container');
+              const totalForms = document.getElementById('id_book_set-TOTAL_FORMS');
+  
+              if (totalForms) {
+                  const currentFormCount = parseInt(totalForms.value);
+
+                  const newFormHTML = document.getElementById('empty-form').innerHTML.replace(/__prefix__/g, currentFormCount);
+  
+                  formContainer.insertAdjacentHTML('beforeend', newFormHTML);
+
+                  totalForms.value = currentFormCount + 1;
+              }
+          });
+        </script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
